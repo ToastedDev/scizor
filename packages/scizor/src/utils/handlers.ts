@@ -1,4 +1,3 @@
-import type { Handler } from "express";
 import type { MethodExport } from "../types/exports";
 
 export const getHandlers = (handler: MethodExport) => {
