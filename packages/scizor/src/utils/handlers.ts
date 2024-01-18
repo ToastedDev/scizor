@@ -6,3 +6,9 @@ export const getHandlers = (handler: MethodExport) => {
   else if (typeof handler === "function") return [handler];
   else return [];
 };
+
+export const getMethodKey = (method: string) => {
+  const key = method.toLowerCase();
+  if (key === "del") return "delete";
+  return key;
+};
