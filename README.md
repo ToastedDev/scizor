@@ -1,81 +1,64 @@
-# Turborepo starter
+<img align="right" src="https://github.com/ToastedDev/scizor/assets/50563138/79e9bdd0-cac3-4e6a-b093-b48f77710b4a" width="150">
 
-This is an official starter Turborepo.
+# Scizor
 
-## Using this example
+The perfect way to manage the routes in your backend.
 
-Run the following command:
+## Installation
 
-```sh
-npx create-turbo@latest
+```bash
+# npm
+npm install scizor
+
+# yarn
+yarn add scizor
+
+# pnpm
+pnpm add scizor
+
+# bun
+bun add scizor
 ```
 
-## What's inside?
+## Usage
 
-This Turborepo includes the following packages/apps:
+To initialize your router, add the `router` middleware to your app.
 
-### Apps and Packages
+```js
+import express from "express";
+import { router } from "scizor";
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+const app = express();
+app.use(await router());
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
+app.listen(3000);
 ```
 
-### Develop
+Or you can use the `createRouter()` function.
 
-To develop all apps and packages, run the following command:
+```js
+import express from "express";
+import { router } from "scizor";
 
-```
-cd my-turborepo
-pnpm dev
-```
+const app = express();
+createRouter(app);
 
-### Remote Caching
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
+app.listen(3000);
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+Then, to create routes, just create a folder called `app`, and create subfolders for your routes.
 
 ```
-npx turbo link
+app
+└── hello
+    └── route.js
 ```
 
-## Useful Links
+The `route.js` file is your actual route that gets called when you go to `http://localhost:3000/hello`. You can export a `GET` function to handle `GET` requests.
 
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+```js
+export const GET = (req, res) =>
+  res.json({
+    hello: "world!",
+  });
+```
