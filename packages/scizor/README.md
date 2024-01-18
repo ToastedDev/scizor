@@ -57,8 +57,70 @@ app
 The `route.js` file is your actual route that gets called when you go to `http://localhost:3000/hello`. You can export a `GET` function to handle `GET` requests.
 
 ```js
-export const GET = (req, res) =>
+export const GET = (req, res) => {
   res.json({
     hello: "world!",
   });
+};
+```
+
+The same goes for other HTTP methods.
+
+```js
+export const GET = (req, res) => {
+  return res.json({
+    message: "hello from GET!",
+  });
+};
+
+export const POST = (req, res) => {
+  return res.json({
+    message: "hello from POST!",
+  });
+};
+
+export const PUT = (req, res) => {
+  return res.json({
+    message: "hello from PUT!",
+  });
+};
+
+export const PATCH = (req, res) => {
+  return res.json({
+    message: "hello from PATCH!",
+  });
+};
+
+export const DELETE = (req, res) => {
+  return res.json({
+    message: "hello from DELETE!",
+  });
+};
+```
+
+To add URL parameters, you can add a folder named `[parameter]`, where `parameter` is your parameter name.
+
+```
+app
+└── hello
+    └── [id]
+        └── route.js
+```
+
+You can also do it the "express way" with `:parameter`.
+
+```
+app
+└── hello
+    └── :id
+        └── route.js
+```
+
+Then to access the parameter, you can use `req.params`, as if you were in a normal `app.get()` function.
+
+```js
+export const GET = (req, res) => {
+  const { id } = req.params;
+  return res.json({ id });
+};
 ```
