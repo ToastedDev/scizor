@@ -21,11 +21,6 @@ export const walkTree = (directory: string, tree: string[] = []) => {
     if (statSync(filePath).isDirectory())
       results.push(...walkTree(filePath, [...tree, fileName]));
     else {
-      // TODO: make this error better
-      if (!fileName.startsWith("route"))
-        throw new Error(
-          `File at '${filePath}' is an invalid route handler. Route handlers must be named 'route.js' or 'route.ts'`,
-        );
       results.push({
         name: fileName,
         path: directory,
