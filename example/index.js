@@ -7,7 +7,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(
-  "/api",
   await router({
     directory: path.join(__dirname, "app"),
   }),
