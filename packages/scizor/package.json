@@ -1,18 +1,43 @@
 {
   "name": "scizor",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.0",
+  "author": "ToastedToast <hey@toasted.dev>",
+  "description": "The perfect way to manage the routes in your backend.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToastedDev/scizor.git",
+    "directory": "packages/scizor"
+  },
+  "keywords": [
+    "express",
+    "api",
+    "backend",
+    "file",
+    "router",
+    "routing",
+    "file-routing",
+    "typescript"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "package.json"
+  ],
   "scripts": {
     "lint": "eslint .",
     "typecheck": "tsc",
     "build": "tsup"
   },
-  "keywords": [],
-  "author": "ToastedToast <hey@toasted.dev>",
-  "license": "MIT",
   "dependencies": {
     "express": "^4.18.2"
   },
