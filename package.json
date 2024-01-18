@@ -1,5 +1,5 @@
 {
-  "name": "scizor",
+  "name": "@scizor/root",
   "private": true,
   "scripts": {
     "build": "turbo build",
