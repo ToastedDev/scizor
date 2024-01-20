@@ -1,5 +1,12 @@
 # scizor
 
+## 0.0.2
+
+### Patch Changes
+
+- 67e016e: Fix `module is not defined in ES module scope` error.
+- 2dd6e27: Add provenance.
+
 ## 0.0.1
 
 ### Patch Changes

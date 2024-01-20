@@ -1,5 +1,13 @@
 # create-scizor
 
+## 0.0.4
+
+### Patch Changes
+
+- 7be5176: Fix missing and extra newlines when initializing git.
+- 2dd6e27: Add provenance.
+- 3df80c5: Add checks for if directory is not empty.
+
 ## 0.0.3
 
 ### Patch Changes
