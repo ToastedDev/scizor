@@ -9,9 +9,6 @@ interface Route {
   exports: Exports;
 }
 
-const IS_ESM = typeof module === "undefined" && !(module as any)?.exports;
-const MODULE_IMPORT_PREFIX = IS_ESM ? "file://" : "";
-
 export const generateRoutes = async (files: File[]) => {
   const routes: Route[] = [];
   for (const file of files) {
@@ -19,9 +16,7 @@ export const generateRoutes = async (files: File[]) => {
     const route = buildRoute(parsedFile);
     const url = buildUrl(route);
     const priority = calculatePriority(url);
-    const exports = await import(
-      MODULE_IMPORT_PREFIX + join(file.path, file.name)
-    );
+    const exports = await import(join(file.path, file.name));
 
     if (parsedFile.name.startsWith("route") && exports.default)
       throw new Error(`Route '${route}' must not have a default export`);

@@ -54,6 +54,7 @@ const getDefaultBranch = () => {
 
 // This initializes the Git-repository for the project
 export const initializeGit = async (projectPath: string) => {
+  console.log();
   console.log(chalk.cyan("Initializing Git..."));
   if (!isGitInstalled(projectPath)) {
     console.log(
@@ -128,7 +129,7 @@ export const initializeGit = async (projectPath: string) => {
     spinner.succeed(
       `${chalk.green("Successfully initialized and staged")} ${chalk.green.bold(
         "git",
-      )}\n`,
+      )}`,
     );
   } catch (error) {
     // Safeguard, should be unreachable
