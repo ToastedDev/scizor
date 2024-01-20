@@ -1,5 +1,11 @@
 # create-scizor
 
+## 0.0.3
+
+### Patch Changes
+
+- d9cc3ca: Add `template` directory to files included.
+
 ## 0.0.2
 
 ### Patch Changes
