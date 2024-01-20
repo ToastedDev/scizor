@@ -2,4 +2,4 @@
 "create-scizor": patch
 ---
 
-Add README
+Add README.
