@@ -1,5 +1,12 @@
 # create-scizor
 
+## 0.0.2
+
+### Patch Changes
+
+- 41dc0f8: Add README.
+- c5c91fa: Fix CLI not being able to run by adding `env` line.
+
 ## 0.0.1
 
 ### Patch Changes
