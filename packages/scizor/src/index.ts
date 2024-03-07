@@ -1,3 +1,3 @@
 export * from "./types/options";
 export * from "./types/route";
-export { router, createRouter } from "./router";
+export { Router, router, createRouter } from "./router";
