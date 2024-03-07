@@ -9,6 +9,7 @@ import type { Options } from "./types/options";
 import { DEFAULT_METHODS } from "./config";
 import { generateRoutes } from "./utils/routes";
 import { walkTree } from "./utils/tree";
+import { existsSync } from "fs";
 
 const CJS_MAIN_FILENAME =
   typeof require !== "undefined" && require.main?.filename;
@@ -32,17 +33,29 @@ export const router = (
 };
 
 export class Router {
-  options: Options = {};
+  directory!: string;
 
   constructor(app: ExpressLike, options: Options = {}) {
-    this.options = options;
+    if (options?.directory) this.directory = options.directory;
+    else {
+      if (existsSync(join(PROJECT_DIRECTORY, "src/app")))
+        this.directory = join(PROJECT_DIRECTORY, "src/app");
+      else if (existsSync(join(PROJECT_DIRECTORY, "app")))
+        this.directory = join(PROJECT_DIRECTORY, "app");
+      else
+        throw new Error(
+          "No directory specified, and no default directory found.",
+        );
+    }
+
+    if (!existsSync(this.directory))
+      throw new Error(`Directory '${this.directory}' not found.`);
+
     this.setup(app);
   }
 
   async setup(app: ExpressLike) {
-    const files = walkTree(
-      this.options.directory ?? join(PROJECT_DIRECTORY, "app"),
-    );
+    const files = walkTree(this.directory);
     const routes = await generateRoutes(files);
     for (const { exports, url } of routes) {
       const exportMethods = Object.entries(exports);
