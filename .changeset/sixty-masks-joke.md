@@ -2,4 +2,4 @@
 "scizor": patch
 ---
 
-Allow for `src/app` or `app` by default.
+Allow `src/app` directory by default.
