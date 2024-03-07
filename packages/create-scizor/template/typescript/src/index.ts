@@ -4,7 +4,7 @@ import { router } from "scizor";
 
 const app = express();
 app.use(
-  await router({
+  router({
     directory: path.join(process.cwd(), "src/app"),
   }),
 );

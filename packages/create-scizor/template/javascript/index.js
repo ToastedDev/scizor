@@ -2,7 +2,7 @@ import express from "express";
 import { router } from "scizor";
 
 const app = express();
-app.use(await router());
+app.use(router());
 
 const port = process.env.PORT ?? 3000;
 app.listen(port, () => {
