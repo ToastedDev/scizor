@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 app.use(
-  await router({
+  router({
     directory: path.join(__dirname, "app"),
   }),
 );
