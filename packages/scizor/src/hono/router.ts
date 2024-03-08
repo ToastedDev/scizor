@@ -1,14 +1,14 @@
-import {
-  type Express,
-  Router as ExpressRouter,
-  type RouterOptions,
-} from "express";
+import { Hono } from "hono";
+import type { HonoOptions } from "hono/hono-base";
+import type { Env, H } from "hono/types";
+import { createFactory, type Factory } from "hono/factory";
 import { dirname, join } from "path";
-import { getHandlers, getMethodKey } from "./utils/handlers";
-import type { Options } from "./types/options";
-import { DEFAULT_METHODS } from "./config";
+import { getHandlers } from "./utils/handlers";
+import { getMethodKey } from "../utils/handlers";
+import type { Options } from "../types/options";
+import { DEFAULT_METHODS } from "../config";
 import { generateRoutes } from "./utils/routes";
-import { walkTree } from "./utils/tree";
+import { walkTree } from "../utils/tree";
 import { existsSync } from "fs";
 
 const CJS_MAIN_FILENAME =
@@ -18,24 +18,29 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
   ? dirname(CJS_MAIN_FILENAME)
   : process.cwd();
 
-type ExpressLike = Express | ExpressRouter;
-
-export function createRouter(app: ExpressLike, options: Options = {}) {
-  new Router(app, options);
+export function createRouter<E extends Env>(
+  app: Hono<E>,
+  options: Options = {},
+) {
+  new Router<E>(app, options);
   return app;
 }
 
-export const router = (
-  options: Options & { routerOptions?: RouterOptions } = {},
-) => {
-  const routerOptions = options?.routerOptions || {};
-  return createRouter(ExpressRouter(routerOptions), options);
-};
+// TODO: make this work in a future version
+// export const router = <E extends Env = Env>(
+//   options: Options & { routerOptions?: HonoOptions<E> } = {},
+// ) => {
+//   const routerOptions = options?.routerOptions || undefined;
+//   return createRouter<E>(new Hono(routerOptions), options);
+// };
 
-export class Router {
+export class Router<E extends Env = Env> {
   directory!: string;
+  factory: Factory;
 
-  constructor(app: ExpressLike, options: Options = {}) {
+  constructor(app: Hono<E>, options: Options = {}) {
+    this.factory = createFactory<E>();
+
     if (options?.directory) this.directory = options.directory;
     else {
       if (existsSync(join(PROJECT_DIRECTORY, "src/app")))
@@ -54,7 +59,7 @@ export class Router {
     this.setup(app);
   }
 
-  async setup(app: ExpressLike) {
+  async setup(app: Hono<E>) {
     const files = walkTree(this.directory);
     const routes = await generateRoutes(files);
     for (const { exports, url } of routes) {
@@ -73,7 +78,12 @@ export class Router {
             `Handler for method '${method}' in route '${url}' is invalid`,
           );
 
-        (app as any)[methodKey](url, ...methodHandler);
+        (app as any)[methodKey](
+          url,
+          ...(this.factory.createHandlers as (...handlers: H[]) => H[])(
+            ...methodHandler,
+          ),
+        );
       }
     }
   }

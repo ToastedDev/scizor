@@ -35,3 +35,8 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Ignore all folders except `src/` and `test/` in every published package
+packages/*/*/
+!packages/*/src/
+!packages/*/test/
