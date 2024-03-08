@@ -23,12 +23,12 @@
     "./package.json": "./package.json",
     ".": {
       "import": {
-        "types": "./dist/es/express.d.mts",
-        "default": "./dist/es/express.mjs"
+        "types": "./dist/es/index.d.mts",
+        "default": "./dist/es/index.mjs"
       },
       "require": {
-        "types": "./dist/cjs/express.d.ts",
-        "default": "./dist/cjs/express.js"
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
       }
     },
     "./express": {
@@ -64,17 +64,18 @@
     "typecheck": "tsc",
     "build": "bunchee"
   },
-  "peerDependencies": {
-    "express": "*",
-    "hono": "*"
-  },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.5",
     "bunchee": "^4.4.8",
     "express": "^4.18.2",
+    "hono": "^4.0.10",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "express": "*",
+    "hono": "*"
   },
   "publishConfig": {
     "access": "public",

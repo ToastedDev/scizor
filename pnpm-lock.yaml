@@ -95,10 +95,6 @@ importers:
         version: 5.3.3
 
   packages/scizor:
-    dependencies:
-      hono:
-        specifier: '*'
-        version: 4.0.10
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
@@ -112,6 +108,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      hono:
+        specifier: ^4.0.10
+        version: 4.0.10
       tsup:
         specifier: ^8.0.1
         version: 8.0.1(@swc/core@1.4.5)(typescript@5.3.3)
@@ -2626,7 +2625,6 @@ packages:
   /hono@4.0.10:
     resolution: {integrity: sha512-sq0RFAC3Ij+bkhZu90EGAQnVI1EhohRsjo9BU+BjXLbC71GSy41JjsFqCeg8MRpO2Gdu0A4MXF5licO89tn/rw==}
     engines: {node: '>=16.0.0'}
-    dev: false
 
   /hosted-git-info@2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
