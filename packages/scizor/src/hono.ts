@@ -1,2 +1,2 @@
 export * from "./hono/types/route";
-export { Router, router, createRouter } from "./hono/router";
+export { Router, createRouter } from "./hono/router";
