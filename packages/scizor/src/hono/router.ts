@@ -1,5 +1,4 @@
-import { Hono } from "hono";
-import type { HonoOptions } from "hono/hono-base";
+import type { Hono } from "hono";
 import type { Env, H } from "hono/types";
 import { createFactory, type Factory } from "hono/factory";
 import { dirname, join } from "path";
