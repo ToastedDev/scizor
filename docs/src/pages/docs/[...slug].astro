@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/docs.astro";
+import { Pencil } from "lucide-react";
+
+export async function getStaticPaths() {
+  const docEntries = await getCollection("docs");
+  return docEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await entry.render();
+
+const editUrl = `https://github.com/ToastedDev/scizor/edit/main/web/src/content/docs/${entry.id}`;
+---
+
+<Layout title={entry.data.title} slug={entry.slug} {headings}>
+  <div class="mb-5 flex flex-col gap-2">
+    <h1 class="text-3xl font-bold">{entry.data.title}</h1>
+    <div class="flex items-center gap-2 text-sm text-primary">
+      <a
+        href={editUrl}
+        target="_blank"
+        class="flex items-center gap-1 hover:underline"
+      >
+        <Pencil className="h-4 w-4" /> Edit this page
+      </a>
+    </div>
+  </div>
+  <article class="markdown">
+    <Content />
+  </article>
+</Layout>

@@ -1,0 +1,32 @@
+---
+import { Scissors } from "lucide-react";
+
+interface Props {
+  sticky?: true;
+  class?: string;
+}
+
+const { pathname } = Astro.url;
+const { sticky, class: className } = Astro.props;
+---
+
+<header
+  class:list={[
+    "flex h-16 items-center justify-between border-b px-4 py-3",
+    sticky && "sticky top-0 z-40",
+    className,
+  ]}
+>
+  <nav class="flex items-center gap-2">
+    <a
+      href="/"
+      class="flex w-fit items-center gap-1.5 text-primary transition-all hover:opacity-75"
+    >
+      <Scissors className="-rotate-45" width={24} height={24} />
+      <p class="text-lg font-bold">scizor</p>
+    </a>
+  </nav>
+  <div class="flex items-center gap-2">
+    <slot name="sidebar-toggle" />
+  </div>
+</header>

@@ -1,0 +1,25 @@
+---
+import "@/styles/globals.css"
+import { Scissors } from "lucide-react";
+---
+
+<html lang="en" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro</title>
+	</head>
+	<body>
+    <nav class="border-b px-4 py-3 flxe items-center justify-between">
+      <a href="/" class="flex items-center gap-1.5 text-primary hover:opacity-75 transition-all w-fit">
+        <Scissors className="-rotate-45" width={24} height={24} /> 
+        <p class="text-lg font-bold">scizor</p> 
+      </a>
+    </nav> 
+    <main>
+      <slot />
+    </main>
+	</body>
+</html>
