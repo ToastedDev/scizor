@@ -77,7 +77,8 @@ export class Router<E extends Env = Env> {
             `Handler for method '${method}' in route '${url}' is invalid`,
           );
 
-        (app as any)[methodKey](
+        app.on(
+          methodKey,
           url,
           ...(this.factory.createHandlers as (...handlers: H[]) => H[])(
             ...methodHandler,
