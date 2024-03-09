@@ -47,6 +47,43 @@
     --input: 0 0% 14.9%;
     --ring: 0 72.2% 50.6%;
   }
+
+  .markdown {
+    @apply flex w-full flex-col items-start justify-start leading-relaxed text-slate-100;
+  }
+  .markdown h1 {
+    @apply mb-4 mt-8 text-3xl font-extrabold;
+  }
+  .markdown h2 {
+    @apply mb-4 mt-8 text-2xl font-semibold;
+  }
+  .markdown h3 {
+    @apply mb-2 mt-4 text-xl font-semibold;
+  }
+  .markdown h4 {
+    @apply mb-1 mt-2 text-base font-medium;
+  }
+  .markdown a {
+    @apply text-orange-600 hover:underline;
+  }
+  .markdown pre {
+    @apply mx-auto my-3 rounded-lg p-2 pl-3 font-mono sm:pt-2;
+  }
+
+  /* only at less than md */
+  @media (max-width: 767.5px) {
+    .mobile-sidebar-toggle {
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .mobile-sidebar-toggle #grid-left {
+      z-index: 20;
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
+  }
 }
 
 @layer base {

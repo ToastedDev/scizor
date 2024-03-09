@@ -86,7 +86,7 @@ const basePadding = 8;
                       {headings.map((heading) => (
                         <a
                           href={`#${heading.slug}`}
-                          class="inline-block w-full border-l-[1.5px] border-primary py-[1px] hover:underline data-[active=true]:border-orange-600 data-[active=true]:text-primary"
+                          class="inline-block w-full py-[1px] text-muted-foreground transition-all hover:underline data-[active=true]:text-white"
                           style={{
                             paddingLeft: `${basePadding * heading.depth}px`,
                           }}
