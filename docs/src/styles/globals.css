@@ -52,22 +52,26 @@
     @apply flex w-full flex-col items-start justify-start leading-relaxed text-slate-100;
   }
   .markdown h1 {
-    @apply mb-4 mt-8 text-3xl font-extrabold;
+    @apply mb-4 mt-8 text-4xl font-extrabold tracking-tight lg:text-5xl;
   }
   .markdown h2 {
-    @apply mb-4 mt-8 text-2xl font-semibold;
+    @apply mb-4 mt-8 text-3xl font-semibold tracking-tight;
   }
   .markdown h3 {
-    @apply mb-2 mt-4 text-xl font-semibold;
+    @apply mb-2 mt-4 text-2xl font-semibold tracking-tight;
   }
   .markdown h4 {
-    @apply mb-1 mt-2 text-base font-medium;
+    @apply mb-1 mt-2 text-xl font-semibold tracking-tight;
   }
   .markdown a {
-    @apply text-orange-600 hover:underline;
+    @apply font-medium underline underline-offset-4;
   }
   .markdown pre {
-    @apply mx-auto my-3 rounded-lg p-2 pl-3 font-mono sm:pt-2;
+    @apply mx-auto my-3 rounded-lg !bg-zinc-400 p-2 pl-3 font-mono dark:!bg-zinc-900 sm:pt-2;
+  }
+
+  :is(.dark .shiki, .shiki span) {
+    color: var(--shiki-dark) !important;
   }
 
   /* only at less than md */

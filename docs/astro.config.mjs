@@ -3,6 +3,8 @@ import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import { typedocPlugin } from "./src/utils/typedoc/plugin";
 import react from "@astrojs/react";
+import { lightTheme } from "./src/utils/themes/light";
+import { darkTheme } from "./src/utils/themes/dark";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +18,12 @@ export default defineConfig({
   vite: {
     plugins: [typedocPlugin()],
   },
-  // for some reason this conflicts
-  // eslint-disable-next-line prettier/prettier
+  markdown: {
+    shikiConfig: {
+      experimentalThemes: {
+        light: lightTheme,
+        dark: darkTheme,
+      },
+    },
+  },
 });

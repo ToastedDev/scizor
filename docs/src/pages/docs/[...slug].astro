@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/docs.astro";
 import { Pencil } from "lucide-react";
+import { badgeVariants } from "@/components/ui/badge";
 
 export async function getStaticPaths() {
   const docEntries = await getCollection("docs");
@@ -18,17 +19,15 @@ const editUrl = `https://github.com/ToastedDev/scizor/edit/main/web/src/content/
 ---
 
 <Layout title={entry.data.title} slug={entry.slug} {headings}>
-  <div class="mb-5 flex flex-col gap-2">
+  <div class="mb-5 flex flex-col gap-3">
     <h1 class="text-4xl font-bold tracking-tighter">{entry.data.title}</h1>
-    <div class="flex items-center gap-2 text-sm text-primary">
-      <a
-        href={editUrl}
-        target="_blank"
-        class="flex items-center gap-1 hover:underline"
-      >
-        <Pencil className="h-4 w-4" /> Edit this page
-      </a>
-    </div>
+    <a
+      href={editUrl}
+      target="_blank"
+      class={badgeVariants({ className: "w-fit flex items-center gap-1.5" })}
+    >
+      <Pencil className="h-3 w-3" /> Edit this page
+    </a>
   </div>
   <article class="markdown">
     <Content />

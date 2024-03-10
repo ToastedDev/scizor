@@ -6,7 +6,12 @@ import "@fontsource/geist-sans/600.css";
 import "@fontsource/geist-sans/700.css";
 import "@fontsource-variable/jetbrains-mono";
 
-import { Scissors } from "lucide-react";
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
 ---
 
 <html lang="en" class="dark">
@@ -15,20 +20,9 @@ import { Scissors } from "lucide-react";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>{title ? `${title} - Scizor` : "Scizor"}</title>
   </head>
-  <body>
-    <nav class="flxe items-center justify-between border-b px-4 py-3">
-      <a
-        href="/"
-        class="flex w-fit items-center gap-1.5 text-primary transition-all hover:opacity-75"
-      >
-        <Scissors className="-rotate-45" width={24} height={24} />
-        <p class="text-lg font-bold">scizor</p>
-      </a>
-    </nav>
-    <main>
-      <slot />
-    </main>
+  <body class={className}>
+    <slot />
   </body>
 </html>
