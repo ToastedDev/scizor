@@ -1,0 +1,14 @@
+---
+import { Badge } from "@/components/ui/badge";
+import Layout from "../../layouts/api.astro";
+---
+
+<Layout title="Overview" slug="index">
+  <div class="mb-5 flex flex-col gap-3">
+    <h1 class="text-4xl font-bold tracking-tighter">scizor</h1>
+    <Badge className="w-fit">v1.0.0</Badge>
+  </div>
+  <article class="markdown">
+    <slot />
+  </article>
+</Layout>

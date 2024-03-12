@@ -1,0 +1,27 @@
+---
+import { Excerpt } from "@/components/excerpt";
+import Layout from "../../layouts/api.astro";
+import { getExports, types } from "@/utils/typedoc";
+import { marked } from "marked";
+
+export async function getStaticPaths() {
+  const children = getExports();
+  return children.map((child) => ({
+    params: { slug: `${types[child.kind]?.name}/${child.name}` },
+    props: { child, slug: `${types[child.kind]?.name}/${child.name}` },
+  }));
+}
+
+const { child, slug } = Astro.props;
+const description = child.signatures?.[0]?.comment?.summary
+  ?.map((x) => x.text)
+  .join("\n");
+---
+
+<Layout title={child.name} slug={slug}>
+  <div class="mb-5 flex flex-col gap-3">
+    <h1 class="text-4xl font-bold tracking-tighter">{child.name}</h1>
+    <Excerpt {child} />
+    {description && <p set:html={marked.parse(description)} />}
+  </div>
+</Layout>

@@ -1,14 +1,13 @@
-import { Application, Serializer } from "typedoc";
+import { Application } from "typedoc";
 
 const createVirtualModule = async () => {
   const typedocApp = await Application.bootstrap({
     entryPoints: ["../packages/scizor/src/index.ts"],
   });
-  const serializer = new Serializer();
-  const projectDir = await typedocApp.convert();
-  const project = serializer.projectToObject(projectDir!, process.cwd());
+  const project = await typedocApp.convert();
+  const data = typedocApp.serializer.projectToObject(project!, process.cwd());
   return `
-export const project = ${JSON.stringify(project)};
+export const project = ${JSON.stringify(data)};
 `;
 };
 

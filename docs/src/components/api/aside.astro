@@ -1,0 +1,50 @@
+---
+import { getExports, types } from "@/utils/typedoc";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const children = getExports();
+---
+
+<ul class="flex w-full flex-col gap-2">
+  <a
+    href="/api"
+    class:list={[
+      "inline-block w-full px-2 py-1 text-sm hover:underline",
+      slug === "index" ? "font-medium text-white" : "text-muted-foreground",
+    ]}
+  >
+    Overview
+  </a>
+  {
+    children.map((child) => (
+      <a
+        href={`/api${
+          types[child.kind] ? "/" + types[child.kind].name + "/" : "/"
+        }${child.name}`}
+        class:list={[
+          "group flex w-full gap-2 px-2 py-1 text-sm",
+          slug ===
+          `${types[child.kind] ? types[child.kind].name + "/" : ""}${
+            child.name
+          }`
+            ? "font-medium text-white"
+            : "text-muted-foreground",
+        ]}
+      >
+        {child.kind && types[child.kind] ? (
+          <span
+            class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
+            style={{ borderColor: types[child.kind].color }}
+          >
+            {types[child.kind].symbol}
+          </span>
+        ) : null}
+        <p class="group-hover:underline">{child.name}</p>
+      </a>
+    ))
+  }
+</ul>

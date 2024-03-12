@@ -1,5 +1,5 @@
 export const lightTheme = {
-  name: "Lambda Studio — Whiteout",
+  name: "lambda-whiteout",
   semanticHighlighting: true,
   colors: {
     "editorLink.activeForeground": "#ca8a0488",

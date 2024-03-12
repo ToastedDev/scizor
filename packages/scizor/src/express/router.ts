@@ -21,11 +21,17 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
 
 type ExpressLike = Express | ExpressRouter;
 
+/**
+ * Creates a router.
+ */
 export function createRouter(app: ExpressLike, options: Options = {}) {
   new Router(app, options);
   return app;
 }
 
+/**
+ * Same as `createRouter`, but can be used for middleware.
+ */
 export const router = (
   options: Options & { routerOptions?: RouterOptions } = {},
 ) => {

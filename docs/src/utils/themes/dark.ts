@@ -1,5 +1,5 @@
 export const darkTheme = {
-  name: "Lambda Studio — Blackout",
+  name: "lambda-blackout",
   semanticHighlighting: true,
   colors: {
     "editorLink.activeForeground": "#ca8a0488",

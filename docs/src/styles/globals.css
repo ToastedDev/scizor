@@ -67,10 +67,14 @@
     @apply font-medium underline underline-offset-4;
   }
   .markdown pre {
-    @apply mx-auto my-3 rounded-lg !bg-zinc-400 p-2 pl-3 font-mono dark:!bg-zinc-900 sm:pt-2;
+    @apply mx-auto my-3 w-full rounded-lg bg-zinc-400 p-2 pl-3 font-mono dark:!bg-zinc-900 sm:pt-2;
   }
 
-  :is(.dark .shiki, .shiki span) {
+  .shiki {
+    @apply rounded-lg !bg-zinc-400 p-2 pl-3 font-mono dark:!bg-zinc-900 sm:pt-2;
+  }
+
+  :is(.dark .shiki, .shiki span, .markdown pre, .markdown pre span) {
     color: var(--shiki-dark) !important;
   }
 
