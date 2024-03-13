@@ -3,6 +3,7 @@ import { Application } from "typedoc";
 const createVirtualModule = async () => {
   const typedocApp = await Application.bootstrap({
     entryPoints: ["../packages/scizor/src/index.ts"],
+    includeVersion: true,
   });
   const project = await typedocApp.convert();
   const data = typedocApp.serializer.projectToObject(project!, process.cwd());

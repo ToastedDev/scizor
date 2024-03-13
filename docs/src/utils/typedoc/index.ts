@@ -4,6 +4,7 @@ import { project } from "virtual:typedoc";
 export const getExports = (): DeclarationReflection[] => project.children!;
 export const getExportById = (id: number): DeclarationReflection | undefined =>
   project.children!.find((child) => child.id === id);
+export const getVersion = () => project.packageVersion;
 
 export const types: Record<
   number,

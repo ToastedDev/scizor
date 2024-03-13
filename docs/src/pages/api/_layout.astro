@@ -1,12 +1,15 @@
 ---
 import { Badge } from "@/components/ui/badge";
 import BaseLayout from "../../layouts/api.astro";
+import { getVersion } from "@/utils/typedoc";
+
+const version = getVersion();
 ---
 
 <BaseLayout title="Overview" slug="index">
   <div class="mb-5 flex flex-col gap-3">
     <h1 class="text-4xl font-bold tracking-tighter">scizor</h1>
-    <Badge className="w-fit hover:bg-primary">v1.0.0</Badge>
+    <Badge className="w-fit hover:bg-primary">v{version}</Badge>
   </div>
   <article class="markdown">
     <slot />
