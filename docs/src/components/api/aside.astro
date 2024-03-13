@@ -38,7 +38,10 @@ const children = getExports();
         {child.kind && types[child.kind] ? (
           <span
             class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
-            style={{ borderColor: types[child.kind].color }}
+            style={{
+              borderColor: types[child.kind].color,
+              backgroundColor: `${types[child.kind].color}30`,
+            }}
           >
             {types[child.kind].symbol}
           </span>

@@ -6,6 +6,17 @@ interface Props {
   class?: string;
 }
 
+const navbarItems: { name: string; link: string }[] = [
+  {
+    name: "Docs",
+    link: "/docs",
+  },
+  {
+    name: "API",
+    link: "/api",
+  },
+];
+
 const { pathname } = Astro.url;
 const { sticky, class: className } = Astro.props;
 ---
@@ -17,15 +28,32 @@ const { sticky, class: className } = Astro.props;
     className,
   ]}
 >
-  <nav class="flex items-center gap-2">
+  <div class="flex items-center">
     <a
       href="/"
-      class="flex w-fit items-center gap-1.5 text-primary transition-all hover:opacity-75"
+      class="mr-4 flex w-fit items-center gap-1.5 text-primary transition-all hover:opacity-75"
     >
-      <Scissors className="-rotate-45" width={24} height={24} />
-      <p class="text-xl font-bold tracking-tighter">scizor</p>
+      <Scissors className="h-6 w-6 -rotate-45" />
+      <p class="font-bold tracking-tighter">scizor</p>
     </a>
-  </nav>
+    <nav class="flex items-center gap-4 text-sm">
+      {
+        navbarItems.map((item) => (
+          <a
+            href={item.link}
+            class:list={[
+              "transition-colors hover:text-foreground/80",
+              pathname.startsWith(item.link)
+                ? "text-foreground"
+                : "text-foreground/60",
+            ]}
+          >
+            {item.name}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
   <div class="flex items-center gap-2">
     <slot name="sidebar-toggle" />
   </div>
