@@ -26,8 +26,8 @@ const description = child.signatures?.[0]?.comment?.summary
       <h1 class="text-4xl font-bold tracking-tighter">{child.name}</h1>
       <a
         aria-label="Open source file in new tab"
-        className="min-w-min"
-        href={child.sources[0].url}
+        class="min-w-min"
+        href={child.sources?.[0].url}
         rel="external noreferrer noopener"
         target="_blank"
       >

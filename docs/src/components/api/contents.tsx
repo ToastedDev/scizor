@@ -11,6 +11,7 @@ import {
 } from "react-icons/vsc";
 import { marked } from "marked";
 import { Badge } from "../ui/badge";
+import { Code2 } from "lucide-react";
 
 function getType(type: SomeType, links: boolean = true) {
   let typeName = "";
@@ -69,7 +70,8 @@ const getConstructors = (child: DeclarationReflection) =>
         child.children!.find(
           (child) => child.id === (childId as unknown as number),
         )!,
-    );
+    )
+    .filter((method) => !method.flags.isPrivate);
 const getParameters = (child: DeclarationReflection) =>
   child.signatures?.[0]?.parameters;
 const getProperties = (child: DeclarationReflection) =>
@@ -80,7 +82,8 @@ const getProperties = (child: DeclarationReflection) =>
         child.children!.find(
           (child) => child.id === (childId as unknown as number),
         )!,
-    );
+    )
+    .filter((method) => !method.flags.isPrivate);
 const getMethods = (child: DeclarationReflection) =>
   child.groups
     ?.find((group) => group.title === "Methods")
@@ -89,7 +92,8 @@ const getMethods = (child: DeclarationReflection) =>
         child.children!.find(
           (child) => child.id === (childId as unknown as number),
         )!,
-    );
+    )
+    .filter((method) => !method.flags.isPrivate);
 
 export function APIContents({ child }: { child: DeclarationReflection }) {
   const constructors = getConstructors(child);
@@ -99,7 +103,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
 
   return (
     <div className="flex flex-col gap-3">
-      {constructors && (
+      {!!constructors?.length && (
         <div>
           <h1 className="mb-3 flex items-center gap-2 p-2 text-xl font-bold tracking-tighter">
             <VscSymbolMethod className="flex-shrink-0" />
@@ -113,23 +117,41 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     optional
                   </Badge>
                 ) : null}
-                <p
-                  className="font-mono font-semibold"
-                  dangerouslySetInnerHTML={{
-                    __html: `constructor(${constructor
-                      .signatures![0].parameters!.map(
-                        (parameter) =>
-                          `${parameter.name}${
-                            parameter.flags.isOptional || parameter.defaultValue
-                              ? "?"
-                              : ""
-                          }: ${getType(parameter.type!)}`,
-                      )
-                      .join(", ")}): ${
-                      constructor.type ? getType(constructor.type) : child.name
-                    }`,
-                  }}
-                />
+                <div className="flex items-center justify-between">
+                  <p
+                    className="font-mono font-semibold"
+                    dangerouslySetInnerHTML={{
+                      __html: `constructor(${constructor
+                        .signatures![0].parameters!.map(
+                          (parameter) =>
+                            `${parameter.name}${
+                              parameter.flags.isOptional ||
+                              parameter.defaultValue
+                                ? "?"
+                                : ""
+                            }: ${getType(parameter.type!)}`,
+                        )
+                        .join(", ")}): ${
+                        constructor.type
+                          ? getType(constructor.type)
+                          : child.name
+                      }`,
+                    }}
+                  />
+                  <a
+                    aria-label="Open source file in new tab"
+                    className="min-w-min"
+                    href={constructor.sources?.[0].url}
+                    rel="external noreferrer noopener"
+                    target="_blank"
+                  >
+                    <Code2
+                      aria-hidden
+                      size={20}
+                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                    />
+                  </a>
+                </div>
                 {constructor.signatures?.[0]?.comment?.summary && (
                   <div className="pl-4">
                     <p
@@ -148,7 +170,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
           </ul>
         </div>
       )}
-      {parameters && (
+      {!!parameters?.length && (
         <div>
           <h1 className="mb-3 flex items-center gap-2 p-2 text-xl font-bold tracking-tighter">
             <VscSymbolParameter className="flex-shrink-0" />
@@ -162,18 +184,20 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     optional
                   </Badge>
                 ) : null}
-                <div className="flex items-center gap-2 font-mono font-semibold">
-                  <p>
-                    {parameter.name}
-                    {parameter.flags.isOptional || parameter.defaultValue
-                      ? "?:"
-                      : ":"}
-                  </p>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: getType(parameter.type!),
-                    }}
-                  />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-mono font-semibold">
+                    <p>
+                      {parameter.name}
+                      {parameter.flags.isOptional || parameter.defaultValue
+                        ? "?:"
+                        : ":"}
+                    </p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: getType(parameter.type!),
+                      }}
+                    />
+                  </div>
                 </div>
                 {parameter.comment?.summary && (
                   <div className="pl-4">
@@ -193,7 +217,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
           </ul>
         </div>
       )}
-      {properties && (
+      {!!properties?.length && (
         <div>
           <h1 className="mb-3 flex items-center gap-2 p-2 text-xl font-bold tracking-tighter">
             <VscSymbolProperty className="flex-shrink-0" />
@@ -207,18 +231,33 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     optional
                   </Badge>
                 ) : null}
-                <div className="flex items-center gap-2 font-mono font-semibold">
-                  <p>
-                    {property.name}
-                    {property.flags.isOptional || property.defaultValue
-                      ? "?:"
-                      : ":"}
-                  </p>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: getType(property.type!),
-                    }}
-                  />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-mono font-semibold">
+                    <p>
+                      {property.name}
+                      {property.flags.isOptional || property.defaultValue
+                        ? "?:"
+                        : ":"}
+                    </p>
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: getType(property.type!),
+                      }}
+                    />
+                  </div>
+                  <a
+                    aria-label="Open source file in new tab"
+                    className="min-w-min"
+                    href={property.sources?.[0].url}
+                    rel="external noreferrer noopener"
+                    target="_blank"
+                  >
+                    <Code2
+                      aria-hidden
+                      size={20}
+                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                    />
+                  </a>
                 </div>
                 {property.comment?.summary && (
                   <div className="pl-4">
@@ -238,7 +277,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
           </ul>
         </div>
       )}
-      {methods && (
+      {!!methods?.length && (
         <div>
           <h1 className="mb-3 flex items-center gap-2 p-2 text-xl font-bold tracking-tighter">
             <VscSymbolMethod className="flex-shrink-0" />
@@ -252,20 +291,39 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     optional
                   </Badge>
                 ) : null}
-                <p className="font-mono font-semibold">
-                  {method.name}(
-                  {method
-                    .signatures![0].parameters!.map(
-                      (parameter) =>
-                        `${parameter.name}${
-                          parameter.flags.isOptional || parameter.defaultValue
-                            ? "?"
-                            : ""
-                        }: ${getType(parameter.type!, false)}`,
-                    )
-                    .join(", ")}
-                  ): {method.type ? getType(method.type) : child.name}
-                </p>
+                <div className="flex items-center justify-between">
+                  <p
+                    className="font-mono font-semibold"
+                    dangerouslySetInnerHTML={{
+                      __html: `${method.name}(${method
+                        .signatures![0].parameters!.map(
+                          (parameter) =>
+                            `${parameter.name}${
+                              parameter.flags.isOptional ||
+                              parameter.defaultValue
+                                ? "?"
+                                : ""
+                            }: ${getType(parameter.type!, false)}`,
+                        )
+                        .join(", ")}): ${
+                        method.type ? getType(method.type) : child.name
+                      }`,
+                    }}
+                  />
+                  <a
+                    aria-label="Open source file in new tab"
+                    className="min-w-min"
+                    href={method.sources?.[0].url}
+                    rel="external noreferrer noopener"
+                    target="_blank"
+                  >
+                    <Code2
+                      aria-hidden
+                      size={20}
+                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                    />
+                  </a>
+                </div>
                 {method.signatures?.[0]?.comment?.summary && (
                   <div className="pl-4">
                     <p
