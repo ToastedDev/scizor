@@ -12,6 +12,7 @@ import {
 import { marked } from "marked";
 import { Badge } from "../ui/badge";
 import { Code2 } from "lucide-react";
+import { buttonVariants } from "../ui/button";
 
 function getType(type: SomeType, links: boolean = true) {
   let typeName = "";
@@ -140,7 +141,11 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                   />
                   <a
                     aria-label="Open source file in new tab"
-                    className="min-w-min"
+                    className={buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "group",
+                    })}
                     href={constructor.sources?.[0].url}
                     rel="external noreferrer noopener"
                     target="_blank"
@@ -148,7 +153,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     <Code2
                       aria-hidden
                       size={20}
-                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                      className="text-foreground/60 transition-colors group-hover:text-foreground/80"
                     />
                   </a>
                 </div>
@@ -247,7 +252,11 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                   </div>
                   <a
                     aria-label="Open source file in new tab"
-                    className="min-w-min"
+                    className={buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "group",
+                    })}
                     href={property.sources?.[0].url}
                     rel="external noreferrer noopener"
                     target="_blank"
@@ -255,7 +264,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     <Code2
                       aria-hidden
                       size={20}
-                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                      className="text-foreground/60 transition-colors group-hover:text-foreground/80"
                     />
                   </a>
                 </div>
@@ -312,7 +321,11 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                   />
                   <a
                     aria-label="Open source file in new tab"
-                    className="min-w-min"
+                    className={buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "group",
+                    })}
                     href={method.sources?.[0].url}
                     rel="external noreferrer noopener"
                     target="_blank"
@@ -320,7 +333,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                     <Code2
                       aria-hidden
                       size={20}
-                      className="text-foreground/60 transition-colors hover:text-foreground/80"
+                      className="text-foreground/60 transition-colors group-hover:text-foreground/80"
                     />
                   </a>
                 </div>

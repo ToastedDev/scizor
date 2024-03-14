@@ -5,6 +5,7 @@ import Layout from "../../layouts/api.astro";
 import { getExports, types } from "@/utils/typedoc";
 import { marked } from "marked";
 import { FileCode2 } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
 
 export async function getStaticPaths() {
   const children = getExports();
@@ -26,7 +27,11 @@ const description = child.signatures?.[0]?.comment?.summary
       <h1 class="text-4xl font-bold tracking-tighter">{child.name}</h1>
       <a
         aria-label="Open source file in new tab"
-        class="min-w-min"
+        class={buttonVariants({
+          variant: "ghost",
+          size: "icon",
+          className: "group",
+        })}
         href={child.sources?.[0].url}
         rel="external noreferrer noopener"
         target="_blank"
@@ -34,7 +39,7 @@ const description = child.signatures?.[0]?.comment?.summary
         <FileCode2
           aria-hidden
           size={20}
-          className="text-foreground/60 transition-colors hover:text-foreground/80"
+          className="text-foreground/60 transition-colors group-hover:text-foreground/80"
         />
       </a>
     </div>
