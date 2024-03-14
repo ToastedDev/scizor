@@ -1,0 +1,17 @@
+{
+  "name": "@scizor/template-hono-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "ToastedToast <hey@toasted.dev>",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^4.1.0",
+    "scizor": "latest"
+  }
+}

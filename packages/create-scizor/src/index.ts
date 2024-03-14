@@ -5,6 +5,7 @@ import {
   promptForDirectory,
   promptForGit,
   promptForInstall,
+  promptForProjectLanguage,
   promptForProjectType,
 } from "./prompts.js";
 import { createProject } from "./utils/project/index.js";
@@ -23,6 +24,12 @@ const cli = async () => {
         "-l, --language <language>",
         "The language to use for the project",
       ).choices(["javascript", "typescript", "js", "ts"]),
+    )
+    .addOption(
+      new Option(
+        "-p, --package <package>",
+        "The package to use for the project",
+      ).choices(["express", "hono"]),
     )
     .option(
       "--skip-install",
@@ -43,7 +50,10 @@ const cli = async () => {
   const [name, path] = parseNameAndPath(directory);
 
   const projectType = await promptForProjectType({
-    providedProjectType: options.language,
+    providedProjectType: options.type,
+  });
+  const projectLanguage = await promptForProjectLanguage({
+    providedProjectLanguage: options.language,
   });
   const initializeGit = await promptForGit({
     skipGit: options.skipGit,
@@ -59,6 +69,7 @@ const cli = async () => {
     path,
     name,
     projectType,
+    projectLanguage,
     initializeGit,
     installPackages,
   });
