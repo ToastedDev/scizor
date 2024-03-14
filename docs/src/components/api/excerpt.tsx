@@ -1,11 +1,10 @@
 import { darkTheme } from "@/utils/themes/dark";
 import { lightTheme } from "@/utils/themes/light";
-import { getExportById, types } from "@/utils/typedoc";
+import { types } from "@/utils/typedoc";
 import { getHighlighterCore } from "shiki/core";
 import getWasm from "shiki/wasm";
 import {
   ReflectionKind,
-  type ParameterReflection,
   type DeclarationReflection,
   type SomeType,
 } from "typedoc";
@@ -37,7 +36,14 @@ function generateCode(child: DeclarationReflection) {
   } else if (child.kind === ReflectionKind.Function) {
     code += "(";
     code += child.signatures?.[0].parameters
-      ?.map((parameter) => `${parameter.name}: ${getType(parameter.type!)}`)
+      ?.map(
+        (parameter) =>
+          `${parameter.name}${
+            parameter.flags.isOptional || parameter.defaultValue ? "?" : ""
+          }: ${getType(parameter.type!)}${
+            parameter.defaultValue ? ` = ${parameter.defaultValue}` : ""
+          }`,
+      )
       .join(", ");
     code += "): ";
     code += getType(child.signatures![0].type!);
@@ -64,7 +70,10 @@ function getType(type: SomeType) {
           {
             if (type.declaration.children) {
               typeName = `{ ${type.declaration.children.map(
-                (child) => `${child.name}: ${getType(child.type!)}`,
+                (child) =>
+                  `${child.name}${child.flags.isOptional ? "?" : ""}: ${getType(
+                    child.type!,
+                  )}`,
               )} }`;
             }
           }
