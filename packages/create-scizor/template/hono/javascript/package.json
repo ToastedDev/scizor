@@ -1,5 +1,5 @@
 {
-  "name": "@scizor/template-js",
+  "name": "@scizor/template-hono-javascript",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,8 @@
   "author": "ToastedToast <hey@toasted.dev>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "scizor": "^0.0.1"
+    "@hono/node-server": "^1.8.2",
+    "hono": "^4.1.0",
+    "scizor": "latest"
   }
 }

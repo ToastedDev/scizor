@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { router } from "scizor";
+import { router } from "scizor/express";
 
 const app = express();
 app.use(

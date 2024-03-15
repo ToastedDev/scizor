@@ -20,25 +20,13 @@ pnpm add scizor
 bun add scizor
 ```
 
-## Usage
+## Initialization
 
-To initialize your router, add the `router` middleware to your app.
-
-```js
-import express from "express";
-import { router } from "scizor";
-
-const app = express();
-app.use(await router());
-
-app.listen(3000);
-```
-
-Or you can use the `createRouter()` function.
+### Express
 
 ```js
 import express from "express";
-import { router } from "scizor";
+import { createRouter } from "scizor/express";
 
 const app = express();
 createRouter(app);
@@ -46,81 +34,52 @@ createRouter(app);
 app.listen(3000);
 ```
 
-Then, to create routes, just create a folder called `app`, and create subfolders for your routes.
+### Hono
 
-```
-app
-└── hello
-    └── route.js
-```
-
-The `route.js` file is your actual route that gets called when you go to `http://localhost:3000/hello`. You can export a `GET` function to handle `GET` requests.
+This assumes you use Bun. You can always add an adapter like [`@hono/node-server`](https://github.com/honojs/node-server) to run it in Node.
 
 ```js
-export const GET = (req, res) => {
+import Hono from "hono";
+import { createRouter } from "scizor/hono";
+
+const app = new Hono();
+createRouter(app);
+
+export default app;
+```
+
+## Creating a route
+
+### Express
+
+```js
+// app/hello/route.js
+export const GET = (req, res) =>
   res.json({
     hello: "world!",
   });
-};
 ```
 
-The same goes for other HTTP methods.
+### Hono
 
 ```js
-export const GET = (req, res) => {
-  return res.json({
-    message: "hello from GET!",
+// app/hello/route.js
+export const GET = (c) =>
+  c.json({
+    hello: "world!",
   });
-};
-
-export const POST = (req, res) => {
-  return res.json({
-    message: "hello from POST!",
-  });
-};
-
-export const PUT = (req, res) => {
-  return res.json({
-    message: "hello from PUT!",
-  });
-};
-
-export const PATCH = (req, res) => {
-  return res.json({
-    message: "hello from PATCH!",
-  });
-};
-
-export const DELETE = (req, res) => {
-  return res.json({
-    message: "hello from DELETE!",
-  });
-};
 ```
 
-To add URL parameters, you can add a folder named `[parameter]`, where `parameter` is your parameter name.
+## TypeScript
 
-```
-app
-└── hello
-    └── [id]
-        └── route.js
-```
+When creating routes, you can use the `Route` type to get type safety. This example uses `scizor/express`, but this works for any framework that Scizor supports.
 
-You can also do it the "express way" with `:parameter`.
+```ts
+// app/hello/route.ts
+import type { Route } from "scizor/express";
 
-```
-app
-└── hello
-    └── :id
-        └── route.js
-```
-
-Then to access the parameter, you can use `req.params`, as if you were in a normal `app.get()` function.
-
-```js
-export const GET = (req, res) => {
-  const { id } = req.params;
-  return res.json({ id });
-};
+export const GET: Route = (req, res) =>
+  res.json({
+    hello: "world!",
+  });
 ```

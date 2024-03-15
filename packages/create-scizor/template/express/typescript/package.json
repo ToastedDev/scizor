@@ -1,5 +1,5 @@
 {
-  "name": "@scizor/template-ts",
+  "name": "@scizor/template-express-typescript",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
-    "scizor": "^0.0.1"
+    "scizor": "latest"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

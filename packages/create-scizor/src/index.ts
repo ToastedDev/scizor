@@ -5,7 +5,8 @@ import {
   promptForDirectory,
   promptForGit,
   promptForInstall,
-  promptForProjectType,
+  promptForProjectLanguage,
+  promptForProjectFramework,
 } from "./prompts.js";
 import { createProject } from "./utils/project/index.js";
 import { Command, Option } from "commander";
@@ -18,6 +19,12 @@ const cli = async () => {
     .name("create-scizor")
     .description("A CLI for creating backend applications with scizor")
     .argument("[directory]", "Where the project will be created")
+    .addOption(
+      new Option(
+        "-f, --framework <framework>",
+        "The framework to use for the project",
+      ).choices(["express", "hono"]),
+    )
     .addOption(
       new Option(
         "-l, --language <language>",
@@ -42,8 +49,11 @@ const cli = async () => {
   });
   const [name, path] = parseNameAndPath(directory);
 
-  const projectType = await promptForProjectType({
-    providedProjectType: options.language,
+  const projectFramework = await promptForProjectFramework({
+    providedProjectFramework: options.framework,
+  });
+  const projectLanguage = await promptForProjectLanguage({
+    providedProjectLanguage: options.language,
   });
   const initializeGit = await promptForGit({
     skipGit: options.skipGit,
@@ -58,7 +68,8 @@ const cli = async () => {
   await createProject({
     path,
     name,
-    projectType,
+    projectFramework,
+    projectLanguage,
     initializeGit,
     installPackages,
   });

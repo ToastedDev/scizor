@@ -4,11 +4,12 @@ import {
   type RouterOptions,
 } from "express";
 import { dirname, join } from "path";
-import { getHandlers, getMethodKey } from "./utils/handlers";
-import type { Options } from "./types/options";
-import { DEFAULT_METHODS } from "./config";
+import { getHandlers } from "./utils/handlers";
+import { getMethodKey } from "../utils/handlers";
+import type { Options } from "../types/options";
+import { DEFAULT_METHODS } from "../config";
 import { generateRoutes } from "./utils/routes";
-import { walkTree } from "./utils/tree";
+import { walkTree } from "../utils/tree";
 import { existsSync } from "fs";
 
 const CJS_MAIN_FILENAME =

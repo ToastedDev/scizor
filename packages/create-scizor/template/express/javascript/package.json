@@ -1,16 +1,17 @@
 {
-  "name": "@scizor/example",
-  "private": true,
+  "name": "@scizor/template-express-javascript",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "ToastedToast <hey@toasted.dev>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
-    "scizor": "workspace:0.0.2"
+    "scizor": "latest"
   }
 }

@@ -1,4 +1,4 @@
-import { Route } from "scizor";
+import { Route } from "scizor/express";
 
 export const GET: Route = (req, res) => {
   return res.json({

@@ -1,7 +1,10 @@
 import inquirer from "inquirer";
 import { getUserPackageManager } from "./utils/package-manager.js";
 import { removeTrailingSlash } from "./utils/trailing-slash.js";
-import type { ProjectType } from "./types/project-options.js";
+import type {
+  ProjectLanguage,
+  ProjectFramework,
+} from "./types/project-options.js";
 
 const validationRegExp =
   /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/;
@@ -43,13 +46,42 @@ export async function promptForDirectory({
   return projectDirectory;
 }
 
-export async function promptForProjectType({
-  providedProjectType,
+export async function promptForProjectFramework({
+  providedProjectFramework: providedProjectFramework,
 }: {
-  providedProjectType: string | undefined;
-}): Promise<ProjectType> {
-  if (providedProjectType) {
-    switch (providedProjectType) {
+  providedProjectFramework: string | undefined;
+}) {
+  if (providedProjectFramework)
+    return providedProjectFramework as ProjectFramework;
+
+  const { projectFramework } = await inquirer.prompt<{
+    projectFramework: ProjectFramework;
+  }>({
+    type: "list",
+    name: "projectFramework",
+    message: "What framework do you want to use for this project?",
+    choices: [
+      {
+        name: "Express",
+        value: "express",
+      },
+      {
+        name: "Hono",
+        value: "hono",
+      },
+    ],
+    default: "express",
+  });
+  return projectFramework;
+}
+
+export async function promptForProjectLanguage({
+  providedProjectLanguage,
+}: {
+  providedProjectLanguage: string | undefined;
+}): Promise<ProjectLanguage> {
+  if (providedProjectLanguage) {
+    switch (providedProjectLanguage) {
       case "js": {
         return "javascript";
       }
@@ -57,17 +89,17 @@ export async function promptForProjectType({
         return "typescript";
       }
       default: {
-        return providedProjectType as ProjectType;
+        return providedProjectLanguage as ProjectLanguage;
       }
     }
   }
 
-  const { projectType } = await inquirer.prompt<{
-    projectType: "javascript" | "typescript";
+  const { projectLanguage } = await inquirer.prompt<{
+    projectLanguage: ProjectLanguage;
   }>({
     type: "list",
-    name: "projectType",
-    message: "What do you want to use for this project?",
+    name: "projectLanguage",
+    message: "What language do you want to use for this project?",
     choices: [
       {
         name: "JavaScript",
@@ -80,7 +112,7 @@ export async function promptForProjectType({
     ],
     default: "javascript",
   });
-  return projectType;
+  return projectLanguage;
 }
 
 export async function promptForGit({
