@@ -17,6 +17,11 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
   ? dirname(CJS_MAIN_FILENAME)
   : process.cwd();
 
+/**
+ * Creates a router.
+ * @param {Hono} app The app to add the routes to.
+ * @param {Options} options Options for the scizor router.
+ */
 export function createRouter<E extends Env>(
   app: Hono<E>,
   options: Options = {},
@@ -33,10 +38,18 @@ export function createRouter<E extends Env>(
 //   return createRouter<E>(new Hono(routerOptions), options);
 // };
 
+/**
+ * Base router.
+ */
 export class Router<E extends Env = Env> {
-  directory!: string;
-  factory: Factory;
+  private directory!: string;
+  private factory: Factory;
 
+  /**
+   * Create a router.
+   * @param {Hono} app The app to add the routes to.
+   * @param {Options} options Options for the scizor router.
+   */
   constructor(app: Hono<E>, options: Options = {}) {
     this.factory = createFactory<E>();
 
@@ -58,6 +71,10 @@ export class Router<E extends Env = Env> {
     this.setup(app);
   }
 
+  /**
+   * Setup the router.
+   * @param {Hono} app The app to add the routes to.
+   */
   async setup(app: Hono<E>) {
     const files = walkTree(this.directory);
     const routes = await generateRoutes(files);

@@ -42,8 +42,11 @@ export const router = (
   return createRouter(ExpressRouter(routerOptions), options);
 };
 
+/**
+ * Base router.
+ */
 export class Router {
-  directory!: string;
+  private directory!: string;
 
   /**
    * Create a router.
