@@ -3,4 +3,4 @@
 "create-scizor": minor
 ---
 
-Add support for [`hono`](https://hono.dev).
+Add support for [`Hono`](https://hono.dev).
