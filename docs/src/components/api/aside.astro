@@ -21,33 +21,40 @@ const children = getExports();
   </a>
   {
     children.map((child) => (
-      <a
-        href={`/api${
-          types[child.kind] ? "/" + types[child.kind].name + "/" : "/"
-        }${child.name}`}
-        class:list={[
-          "group flex w-full gap-2 px-2 py-1 text-sm",
-          slug ===
-          `${types[child.kind] ? types[child.kind].name + "/" : ""}${
-            child.name
-          }`
-            ? "font-medium text-white"
-            : "text-muted-foreground",
-        ]}
-      >
-        {child.kind && types[child.kind] ? (
-          <span
-            class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
-            style={{
-              borderColor: types[child.kind].color,
-              backgroundColor: `${types[child.kind].color}30`,
-            }}
+      <li class="flex flex-col">
+        <p class="mb-1 px-2 py-1 text-sm font-semibold">
+          {`${child.name[0].toUpperCase()}${child.name.slice(1)}`}
+        </p>
+        {child.children!.map((node) => (
+          <a
+            href={`/api/${child.name}${
+              types[node.kind] ? "/" + types[node.kind].name + "/" : "/"
+            }${node.name}`}
+            class:list={[
+              "group flex w-full gap-2 px-2 py-1 text-sm",
+              slug ===
+              `${child.name}${types[node.kind] ? "/" + types[node.kind].name + "/" : "/"}${
+                node.name
+              }`
+                ? "font-medium text-white"
+                : "text-muted-foreground",
+            ]}
           >
-            {types[child.kind].symbol}
-          </span>
-        ) : null}
-        <p class="group-hover:underline">{child.name}</p>
-      </a>
+            {node.kind && types[node.kind] ? (
+              <span
+                class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
+                style={{
+                  borderColor: types[node.kind].color,
+                  backgroundColor: `${types[node.kind].color}30`,
+                }}
+              >
+                {types[node.kind].symbol}
+              </span>
+            ) : null}
+            <p class="group-hover:underline">{node.name}</p>
+          </a>
+        ))}
+      </li>
     ))
   }
 </ul>

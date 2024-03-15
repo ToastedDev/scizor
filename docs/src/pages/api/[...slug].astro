@@ -9,10 +9,19 @@ import { buttonVariants } from "@/components/ui/button";
 
 export async function getStaticPaths() {
   const children = getExports();
-  return children.map((child) => ({
-    params: { slug: `${types[child.kind]?.name}/${child.name}` },
-    props: { child, slug: `${types[child.kind]?.name}/${child.name}` },
-  }));
+  return children
+    .map((child) =>
+      child.children.map((node) => ({
+        params: {
+          slug: `${child.name}/${types[node.kind]?.name}/${node.name}`,
+        },
+        props: {
+          child: node,
+          slug: `${child.name}/${types[node.kind]?.name}/${node.name}`,
+        },
+      })),
+    )
+    .flat(1);
 }
 
 const { child, slug } = Astro.props;
