@@ -3,6 +3,7 @@ import { Application } from "typedoc";
 const createVirtualModule = async () => {
   const typedocApp = await Application.bootstrap({
     entryPoints: [
+      "../packages/scizor/src/types/options.ts",
       "../packages/scizor/src/express.ts",
       "../packages/scizor/src/hono.ts",
     ],

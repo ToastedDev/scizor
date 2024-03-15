@@ -2,8 +2,22 @@ import { ReflectionKind, type DeclarationReflection } from "typedoc";
 import { project } from "virtual:typedoc";
 
 export const getExports = (): DeclarationReflection[] => project.children!;
-export const getExportById = (id: number): DeclarationReflection | undefined =>
-  project.children!.find((child) => child.id === id);
+export const getExportById = (
+  id: number,
+): (DeclarationReflection & { parent?: DeclarationReflection }) | undefined => {
+  const parent = project.children!.find((child) =>
+    child.children!.find((node) => node.id === id),
+  );
+  if (!parent) return;
+
+  const child = parent.children!.find((node) => node.id === id);
+  if (!child) return;
+
+  return {
+    ...child,
+    parent: parent.name !== "types/options" ? parent : undefined,
+  } as any;
+};
 export const getVersion = () => project.packageVersion;
 
 export const types: Record<

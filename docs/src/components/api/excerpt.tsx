@@ -22,14 +22,20 @@ function generateCode(child: DeclarationReflection) {
     child.kind === ReflectionKind.TypeAlias
   ) {
     if (child.children) {
-      code += " {\n";
+      code +=
+        " " + (child.kind === ReflectionKind.TypeAlias ? "=" : "") + " {\n";
       for (const property of child.children) {
         code += `  ${property.name}${
           property.flags.isOptional ? "?" : ""
         }: ${getType(property.type!)}\n`;
       }
       code += "}";
-    } else if (child.type!.type === "reference")
+    } else if (child.type!.type === "union")
+      code +=
+        " " +
+        (child.kind === ReflectionKind.Interface ? " = " : "") +
+        getType(child.type!);
+    else if (child.type!.type === "reference")
       code += ` ${child.kind === ReflectionKind.TypeAlias ? "=" : "extends"} ${
         child.type!.name
       }`;

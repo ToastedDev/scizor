@@ -8,6 +8,7 @@ import {
   VscSymbolMethod,
   VscSymbolParameter,
   VscSymbolProperty,
+  VscTypeHierarchy,
 } from "react-icons/vsc";
 import { marked } from "marked";
 import { Badge } from "../ui/badge";
@@ -27,7 +28,7 @@ function getType(type: SomeType, links: boolean = true) {
           if (typeof typeTarget === "number") {
             const item = getExportById(typeTarget);
             if (item)
-              typeName = `<a href="/api${
+              typeName = `<a href="/api${item.parent ? "/" + item.parent.name : ""}${
                 types[item.kind] ? `/${types[item.kind].name}/` : "/"
               }${item.name}" class="text-primary hover:underline">${
                 type.name
@@ -101,6 +102,7 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
   const parameters = getParameters(child);
   const properties = getProperties(child);
   const methods = getMethods(child);
+  const type = child.kind === ReflectionKind.TypeAlias ? child.type : undefined;
 
   return (
     <div className="flex flex-col gap-3">
@@ -352,6 +354,26 @@ export function APIContents({ child }: { child: DeclarationReflection }) {
                 )}
               </li>
             ))}
+          </ul>
+        </div>
+      )}
+      {!!type && (
+        <div>
+          <h1 className="mb-3 flex items-center gap-2 p-2 text-xl font-bold tracking-tighter">
+            <VscTypeHierarchy className="flex-shrink-0" />
+            Union Members
+          </h1>
+          <ul className="flex flex-col gap-5">
+            {getType(type)
+              .split(/ [&|] +/g)
+              .map((type) => (
+                <p
+                  className="font-mono font-semibold"
+                  dangerouslySetInnerHTML={{
+                    __html: type,
+                  }}
+                />
+              ))}
           </ul>
         </div>
       )}
