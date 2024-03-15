@@ -69,3 +69,17 @@ export const GET = (c) =>
     hello: "world!",
   });
 ```
+
+## TypeScript
+
+When creating routes, you can use the `Route` type to get type safety.
+
+```ts
+// app/hello/route.ts
+import type { Route } from "scizor/express";
+
+export const GET: Route = (req, res) =>
+  res.json({
+    hello: "world!",
+  });
+```
