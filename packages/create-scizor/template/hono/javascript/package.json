@@ -11,6 +11,7 @@
   "author": "ToastedToast <hey@toasted.dev>",
   "license": "MIT",
   "dependencies": {
+    "@hono/node-server": "^1.8.2",
     "hono": "^4.1.0",
     "scizor": "latest"
   }
