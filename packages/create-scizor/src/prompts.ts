@@ -1,7 +1,10 @@
 import inquirer from "inquirer";
 import { getUserPackageManager } from "./utils/package-manager.js";
 import { removeTrailingSlash } from "./utils/trailing-slash.js";
-import type { ProjectLanguage, ProjectType } from "./types/project-options.js";
+import type {
+  ProjectLanguage,
+  ProjectFramework,
+} from "./types/project-options.js";
 
 const validationRegExp =
   /^(?:@[a-z0-9-*~][a-z0-9-*._~]*\/)?[a-z0-9-~][a-z0-9-._~]*$/;
@@ -43,19 +46,20 @@ export async function promptForDirectory({
   return projectDirectory;
 }
 
-export async function promptForProjectType({
-  providedProjectType,
+export async function promptForProjectFramework({
+  providedProjectFramework: providedProjectFramework,
 }: {
-  providedProjectType: string | undefined;
+  providedProjectFramework: string | undefined;
 }) {
-  if (providedProjectType) return providedProjectType as ProjectType;
+  if (providedProjectFramework)
+    return providedProjectFramework as ProjectFramework;
 
-  const { projectType } = await inquirer.prompt<{
-    projectType: ProjectType;
+  const { projectFramework } = await inquirer.prompt<{
+    projectFramework: ProjectFramework;
   }>({
     type: "list",
-    name: "projectType",
-    message: "What package do you want to use for this project?",
+    name: "projectFramework",
+    message: "What framework do you want to use for this project?",
     choices: [
       {
         name: "Express",
@@ -68,7 +72,7 @@ export async function promptForProjectType({
     ],
     default: "express",
   });
-  return projectType;
+  return projectFramework;
 }
 
 export async function promptForProjectLanguage({

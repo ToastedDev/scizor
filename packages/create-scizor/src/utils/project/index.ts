@@ -7,8 +7,8 @@ export const createProject = async (options: ProjectOptions) => {
   await scaffoldProject(
     options.path,
     options.name,
+    options.projectFramework,
     options.projectLanguage,
-    options.projectType,
   );
   if (options.installPackages) await installDependencies(options.path);
   if (options.initializeGit) await initializeGit(options.path);

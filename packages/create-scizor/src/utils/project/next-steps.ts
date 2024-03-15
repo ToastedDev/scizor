@@ -4,7 +4,7 @@ import { getUserPackageManager } from "../package-manager.js";
 import { isInsideGitRepo, isRootGitRepo } from "./git.js";
 
 export const logNextSteps = async (
-  options: Omit<ProjectOptions, "projectType" | "projectLanguage">,
+  options: Omit<ProjectOptions, "projectFramework" | "projectLanguage">,
 ) => {
   const packageManager = getUserPackageManager();
 

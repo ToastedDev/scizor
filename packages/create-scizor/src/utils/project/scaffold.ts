@@ -11,8 +11,8 @@ import inquirer from "inquirer";
 export const scaffoldProject = async (
   path: string,
   name: string,
+  projectFramework: string,
   projectLanguage: string,
-  projectType: string,
 ) => {
   const spinner = ora(`Scaffolding in: ${path}...`).start();
 
@@ -77,7 +77,10 @@ export const scaffoldProject = async (
 
   spinner.start();
 
-  fs.copySync(join(PKG_ROOT, "template", projectType, projectLanguage), path);
+  fs.copySync(
+    join(PKG_ROOT, "template", projectFramework, projectLanguage),
+    path,
+  );
 
   const packageJson = JSON.parse(
     fs.readFileSync(join(path, "package.json"), {
