@@ -1,5 +1,12 @@
 # create-scizor
 
+## 0.1.0
+
+### Minor Changes
+
+- f3de8d9: Remove `await` from creation of routers.
+- f0e99c3: Add support for [`Hono`](https://hono.dev).
+
 ## 0.0.4
 
 ### Patch Changes

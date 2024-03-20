@@ -1,6 +1,6 @@
 {
   "name": "create-scizor",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "type": "module",
   "author": "ToastedToast <hey@toasted.dev>",
   "description": "The perfect way to manage the routes in your backend.",
