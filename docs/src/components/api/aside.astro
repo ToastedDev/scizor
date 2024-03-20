@@ -1,0 +1,93 @@
+---
+import { getExports, types } from "@/utils/typedoc";
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const children = getExports();
+const optionType = children.find((child) => child.name === "types/options")!
+  .children![0];
+---
+
+<ul class="flex w-full flex-col gap-2">
+  <a
+    href="/api"
+    class:list={[
+      "inline-block w-full px-2 py-1 text-sm hover:underline",
+      slug === "index" ? "font-medium text-white" : "text-muted-foreground",
+    ]}
+  >
+    Overview
+  </a>
+  <a
+    href={`/api${
+      types[optionType.kind] ? "/" + types[optionType.kind].name + "/" : "/"
+    }${optionType.name}`}
+    class:list={[
+      "group flex w-full gap-2 px-2 py-1 text-sm",
+      slug ===
+      `${types[optionType.kind] ? types[optionType.kind].name + "/" : ""}${
+        optionType.name
+      }`
+        ? "font-medium text-white"
+        : "text-muted-foreground",
+    ]}
+  >
+    {
+      optionType.kind && types[optionType.kind] ? (
+        <span
+          class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
+          style={{
+            borderColor: types[optionType.kind].color,
+            backgroundColor: `${types[optionType.kind].color}30`,
+          }}
+        >
+          {types[optionType.kind].symbol}
+        </span>
+      ) : null
+    }
+    <p class="group-hover:underline">{optionType.name}</p>
+  </a>
+  {
+    children
+      .filter((child) => child.name !== "types/options")
+      .map((child) => (
+        <li class="flex flex-col">
+          <p class="mb-1 px-2 py-1 text-sm font-semibold">
+            {`${child.name[0].toUpperCase()}${child.name.slice(1)}`}
+          </p>
+          {child.children!.map((node) => (
+            <a
+              href={`/api/${child.name}${
+                types[node.kind] ? "/" + types[node.kind].name + "/" : "/"
+              }${node.name}`}
+              class:list={[
+                "group flex w-full gap-2 px-2 py-1 text-sm",
+                slug ===
+                `${child.name}${types[node.kind] ? "/" + types[node.kind].name + "/" : "/"}${
+                  node.name
+                }`
+                  ? "font-medium text-white"
+                  : "text-muted-foreground",
+              ]}
+            >
+              {node.kind && types[node.kind] ? (
+                <span
+                  class="flex h-5 w-5 justify-center rounded border px-1.5 font-mono text-[10px] text-white"
+                  style={{
+                    borderColor: types[node.kind].color,
+                    backgroundColor: `${types[node.kind].color}30`,
+                  }}
+                >
+                  {types[node.kind].symbol}
+                </span>
+              ) : null}
+              <p class="group-hover:underline">{node.name}</p>
+            </a>
+          ))}
+        </li>
+      ))
+  }
+</ul>

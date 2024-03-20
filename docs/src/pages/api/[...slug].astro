@@ -1,0 +1,72 @@
+---
+import { Excerpt } from "@/components/api/excerpt";
+import { APIContents } from "@/components/api/contents";
+import Layout from "../../layouts/api.astro";
+import { getExports, types } from "@/utils/typedoc";
+import { marked } from "marked";
+import { FileCode2 } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+
+export async function getStaticPaths() {
+  const children = getExports();
+  const optionType = children.find((child) => child.name === "types/options")!
+    .children![0];
+  return [
+    {
+      params: {
+        slug: `${types[optionType.kind]?.name}/${optionType.name}`,
+      },
+      props: {
+        child: optionType,
+        slug: `${types[optionType.kind]?.name}/${optionType.name}`,
+      },
+    },
+    ...children
+      .map((child) =>
+        child.children!.map((node) => ({
+          params: {
+            slug: `${child.name}/${types[node.kind]?.name}/${node.name}`,
+          },
+          props: {
+            child: node,
+            slug: `${child.name}/${types[node.kind]?.name}/${node.name}`,
+          },
+        })),
+      )
+      .flat(1),
+  ];
+}
+
+const { child, slug } = Astro.props;
+const description = child.signatures?.[0]?.comment?.summary
+  ?.map((x) => x.text)
+  .join("\n");
+---
+
+<Layout title={child.name} slug={slug}>
+  <div class="mb-4 flex flex-col gap-3">
+    <div class="flex items-center justify-between">
+      <h1 class="text-4xl font-bold tracking-tighter">{child.name}</h1>
+      <a
+        aria-label="Open source file in new tab"
+        class={buttonVariants({
+          variant: "ghost",
+          size: "icon",
+          className: "group",
+        })}
+        href={child.sources?.[0].url}
+        rel="external noreferrer noopener"
+        target="_blank"
+      >
+        <FileCode2
+          aria-hidden
+          size={20}
+          className="text-foreground/60 transition-colors group-hover:text-foreground/80"
+        />
+      </a>
+    </div>
+    <Excerpt {child} />
+    {description && <div class="mt-1" set:html={marked.parse(description)} />}
+  </div>
+  <APIContents {child} />
+</Layout>

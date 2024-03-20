@@ -1,0 +1,64 @@
+---
+import BaseLayout from "./base.astro";
+import Aside from "../components/api/aside.astro";
+import Navbar from "../components/navbar.astro";
+
+interface Props {
+  title: string;
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<BaseLayout class="flex min-h-screen max-w-7xl flex-col">
+  <Navbar sticky>
+    <button
+      id="sidebar-toggle"
+      slot="sidebar-toggle"
+      type="button"
+      aria-pressed="false"
+      class="z-20 block md:hidden"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="fill-transparent stroke-current"
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <span class="sr-only">Toggle sidebar</span>
+    </button>
+  </Navbar>
+  <main
+    class="grid w-full max-w-7xl flex-1 grid-cols-1 gap-4 md:grid-cols-[250px_auto] lg:grid-cols-[250px_auto_250px]"
+  >
+    <aside
+      id="grid-left"
+      class="gr-scrollbar sticky top-20 col-span-1 hidden h-auto max-h-[calc(100vh-80px)] w-full flex-col justify-start overflow-y-auto bg-background pl-4 md:flex md:max-h-[calc(100vh-96px)] md:pl-0 md:[margin-inline-start:16px]"
+    >
+      <Aside {slug} />
+    </aside>
+    <div class="col-span-1 p-4 lg:col-span-2">
+      <slot />
+    </div>
+  </main>
+  <script is:inline>
+    const button = document.querySelector("#sidebar-toggle");
+
+    button.addEventListener("click", () => {
+      document.documentElement.classList.toggle("mobile-sidebar-toggle");
+      button.toggleAttribute("aria-pressed");
+      button.innerHTML =
+        button.getAttribute("aria-pressed") === null
+          ? `<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current fill-transparent" width="24" height="24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg><span class="sr-only">Close sidebar</span>`
+          : `<svg xmlns="http://www.w3.org/2000/svg" class="stroke-current fill-transparent" width="24" height="24" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg><span class="sr-only">Toggle sidebar</span>`;
+    });
+  </script>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+import { Scissors } from "lucide-react";
+
+interface Props {
+  sticky?: true;
+  class?: string;
+}
+
+const navbarItems: { name: string; link: string }[] = [
+  {
+    name: "Docs",
+    link: "/docs",
+  },
+  {
+    name: "API",
+    link: "/api",
+  },
+];
+
+const { pathname } = Astro.url;
+const { sticky, class: className } = Astro.props;
+---
+
+<header
+  class:list={[
+    "flex h-16 items-center justify-between border-b bg-background/50 px-4 py-3 backdrop-blur-lg",
+    sticky && "sticky top-0 z-40",
+    className,
+  ]}
+>
+  <div class="flex items-center">
+    <a
+      href="/"
+      class="mr-4 flex w-fit items-center gap-1.5 text-primary transition-all hover:opacity-75"
+    >
+      <Scissors className="h-6 w-6 -rotate-45" />
+      <p class="text-lg font-bold tracking-tighter">scizor</p>
+    </a>
+    <nav class="flex items-center gap-4 text-sm">
+      {
+        navbarItems.map((item) => (
+          <a
+            href={item.link}
+            class:list={[
+              "transition-colors hover:text-foreground/80",
+              pathname.startsWith(item.link)
+                ? "text-foreground"
+                : "text-foreground/60",
+            ]}
+          >
+            {item.name}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="flex items-center gap-2">
+    <slot name="sidebar-toggle" />
+  </div>
+</header>

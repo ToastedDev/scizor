@@ -1,0 +1,105 @@
+---
+import { getCollection, type CollectionEntry, getEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  slug: string;
+  headings: MarkdownHeading[];
+}
+
+const pages = await getCollection("docs");
+const allCategories = await getCollection("category");
+const { headings, slug } = Astro.props;
+
+function categorize(pages: CollectionEntry<"docs">[]): {
+  category: CollectionEntry<"category"> | undefined;
+  pages: CollectionEntry<"docs">[];
+}[] {
+  const categories = [...new Set(pages.map((page) => page.data.category?.id))];
+  return categories.reduce(
+    (acc, category) => {
+      const _pages = pages.filter(
+        (page) => page.data.category?.id === category,
+      );
+      const categoryEntry = allCategories.find((c) => c.id === category);
+      return [...acc, { category: categoryEntry, pages: _pages }];
+    },
+    [] as unknown as {
+      category: CollectionEntry<"category"> | undefined;
+      pages: CollectionEntry<"docs">[];
+    }[],
+  );
+}
+
+const basePadding = 8;
+---
+
+<ul class="flex w-full flex-col gap-2">
+  {
+    categorize(pages)
+      .sort((a, b) =>
+        !a.category
+          ? -100
+          : !b.category
+            ? 100
+            : a.category.data.sort
+              ? a.category.data.sort
+              : b.category.data.sort
+                ? -b.category.data.sort
+                : a.category.data.name.localeCompare(b.category.data.name),
+      )
+      .map(async (category) => (
+        <li class="flex flex-col">
+          {category.category && (
+            <p class="mb-1 px-2 py-1 text-sm font-semibold">
+              {category.category.data.name}
+            </p>
+          )}
+          <div>
+            {category.pages
+              .sort((a, b) =>
+                a.data.sort
+                  ? a.data.sort
+                  : b.data.sort
+                    ? -b.data.sort
+                    : a.data.title.localeCompare(b.data.title),
+              )
+              .map((page) => (
+                <div>
+                  <a
+                    href={
+                      page.slug === "introduction"
+                        ? `/docs`
+                        : `/docs/${page.slug}`
+                    }
+                    class:list={[
+                      "inline-block w-full px-2 py-1 text-sm hover:underline",
+                      page.slug === slug
+                        ? "font-medium text-white"
+                        : "text-muted-foreground",
+                    ]}
+                  >
+                    {page.data.title}
+                  </a>
+                  {page.slug === slug && (
+                    <div class="text-sm">
+                      {headings.map((heading) => (
+                        <a
+                          href={`#${heading.slug}`}
+                          class="inline-block w-full py-[1px] text-muted-foreground transition-all hover:underline data-[active=true]:text-white"
+                          style={{
+                            paddingLeft: `${basePadding * heading.depth}px`,
+                          }}
+                        >
+                          {heading.text}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+          </div>
+        </li>
+      ))
+  }
+</ul>

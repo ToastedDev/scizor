@@ -21,11 +21,20 @@ const PROJECT_DIRECTORY = CJS_MAIN_FILENAME
 
 type ExpressLike = Express | ExpressRouter;
 
+/**
+ * Creates a router.
+ * @param {ExpressLike} app The app to add the routes to.
+ * @param {Options} options Options for the scizor router.
+ */
 export function createRouter(app: ExpressLike, options: Options = {}) {
   new Router(app, options);
   return app;
 }
 
+/**
+ * Same as `createRouter`, but can be used for middleware.
+ * @param {Options & { routerOptions?: RouterOptions }} options Options for the scizor router and the Express router.
+ */
 export const router = (
   options: Options & { routerOptions?: RouterOptions } = {},
 ) => {
@@ -33,9 +42,17 @@ export const router = (
   return createRouter(ExpressRouter(routerOptions), options);
 };
 
+/**
+ * Base router.
+ */
 export class Router {
-  directory!: string;
+  private directory!: string;
 
+  /**
+   * Create a router.
+   * @param {ExpressLike} app The app to add the routes to.
+   * @param {Options} options Options for the scizor router.
+   */
   constructor(app: ExpressLike, options: Options = {}) {
     if (options?.directory) this.directory = options.directory;
     else {
@@ -55,6 +72,10 @@ export class Router {
     this.setup(app);
   }
 
+  /**
+   * Setup the router.
+   * @param {ExpressLike} app The app to add the routes to.
+   */
   async setup(app: ExpressLike) {
     const files = walkTree(this.directory);
     const routes = await generateRoutes(files);
