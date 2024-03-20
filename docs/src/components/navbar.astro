@@ -23,7 +23,7 @@ const { sticky, class: className } = Astro.props;
 
 <header
   class:list={[
-    "flex h-16 items-center justify-between border-b px-4 py-3",
+    "flex h-16 items-center justify-between border-b bg-background/50 px-4 py-3 backdrop-blur-lg",
     sticky && "sticky top-0 z-40",
     className,
   ]}
